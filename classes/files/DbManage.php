@@ -7,6 +7,10 @@ class DbManage {
 
   const path = 'pub/accounts.csv';
 
+  const pathTemporay = 'pub/accountsTemp.csv';
+
+  const pathLog = 'pub/log.csv';
+
   const subfijo = 'NE';
 
   public static function createDataBase($data){
@@ -16,31 +20,119 @@ class DbManage {
       return array('status' => 'KO', 'message' => $e->getMessage());
     }
   }
+
+  function log($data){
+
+    $id       = $data['id'];
+    $fecha    = date('Y-m-d h:i:s');
+    $campo    = $data['campo'];
+    $original = $data['original'];
+    $nuevo    = $data['nuevo'];
+
+    if(!file_exists(self::pathLog)){
+
+      $data = array("Id|Fecha|Campo|Dato Original|Nuevo Dato",
+      "$id|$fecha|$campo|$original|$nuevo");
+
+      $fp = fopen(self::pathLog, 'w');
+      foreach($data as $line){
+               $val = explode("|",$line);
+               fputcsv($fp, $val);
+      }
+    }else{
+
+      $fp = fopen(self::pathLog, 'a');
+      $data = "$id|$fecha|$campo|$original|$nuevo";
+
+      $fp = fopen(self::pathLog, 'a');
+      $val = explode("|",$data);
+      fputcsv($fp, $val);
+    }
+      fclose($fp);
+  }
   /*
   *Replace Data in csv
   * @param data mixer
   */
-  function replaceDataInCsv($data){
+  function replaceDataInCsv($dataIn){
 
-    /*if (($gestor = fopen(self::path, 'w+')) !== FALSE) {
-        while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
-          if ($data['rowId'] == $datos[1]) {
-            $newLine = $data[0].'|'.$data[1].'|'.$data['name'].'|'.$data['address'].'|'.$data['phone'].'|';
+    $input = fopen(self::path, 'r');
+    $output = fopen(self::pathTemporay, 'w');
+    while( false !== ( $data = fgetcsv($input) ) ){
 
-              fputcsv($gestor, $newLine);
-          }else{
-            $newLine = $data[0].'|'.$data[1].'|'.$data[2].'|'.$data[3].'|'.$data[4].'|';
+       if ($data[1] == $dataIn['rowId']) {
 
-              fputcsv($gestor, $newLine);
+          if($data[2] != $dataIn['name']){
+            DbManage::log(array(
+              'id'    => $dataIn['rowId'],
+              'campo' => 'nombre',
+              'original'  => $data[2],
+              'nuevo' => $dataIn['name']
+            ));
+            $data[2] = $dataIn['name'];
           }
-        }
-      }
-    fclose($gestor);*/
+          if($data[3] != $dataIn['address']){
+            DbManage::log(array(
+              'id'    => $dataIn['rowId'],
+              'campo' => 'dirección',
+              'original'  => $data[3],
+              'nuevo' => $dataIn['address']
+            ));
+            $data[3] = $dataIn['address'];
+          }
+          if($data[4] != $dataIn['phone']){
+            DbManage::log(array(
+              'id'    => $dataIn['rowId'],
+              'campo' => 'teléfono',
+              'original'  => $data[4],
+              'nuevo' => $dataIn['phone']
+            ));
+            $data[4] = $dataIn['phone'];
+          }
+
+       }
+
+       fputcsv( $output, $data);
+    }
+
+    //close both files
+    fclose($input);
+    fclose($output);
+
+    //clean up
+    unlink(self::path);
+    rename(self::pathTemporay,self::path);
 
     return array('status' => 'OK');
 
   }
 
+    /*
+    * Load Data inCSV with params
+    * @param id string
+    */
+    function getDataInLog($id){
+
+      $row = 1;
+      $out = '';
+      if (($gestor = fopen(self::pathLog, 'r')) !== FALSE) {
+          while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
+            if($row > 1 && strlen($datos[2]) > 0){
+              if($id == $datos[0]){
+                $out .= '<tr>
+                    <td>'.$datos[1].'</td>
+                    <td>'.$datos[2].'</td>
+                    <td>'.$datos[3].'</td>
+                    <td>'.$datos[4].'</td>
+                  </tr>';
+              }
+            }
+              ++$row;
+          }
+          fclose($gestor);
+      }
+      return $out;
+    }
   /*
   * Load Data inCSV with params
   * @param id string
