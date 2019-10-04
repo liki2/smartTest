@@ -14,6 +14,7 @@ $html =
 
 $manage->loadTemplate('header');
 $manage->loadTemplatesWithAditionalHtml('edit',$dbManage->getDataInCsv($_REQUEST['id']));
+$manage->loadTemplatesWithAditionalHtml('log',$dbManage->getDataInLog($_REQUEST['id']));
 $manage->loadTemplate('footer');
 
 
