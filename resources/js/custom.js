@@ -50,8 +50,7 @@ $(document).ready(function(){
            if ( console && console.log ) {
                console.log(data.status);
                console.log( "La solicitud se ha completado correctamente." );
-               $('#modal-messages').html('<p>El registro se actualizo correctamente</p>');
-               $('#ModalSystem').modal('toggle');
+               window.location = 'list.php';
 
            }
        })
