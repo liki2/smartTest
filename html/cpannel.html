@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm border shadow-lg p-3 mb-5 bg-danger rounded">
+      <h3><i class="fa fa-superpowers" aria-hidden="true"></i>
+ DEV DE TEST</h3>
+    </div>
+  </div>
+  <br>
+  <div class="row form_alta_a">
+    <div class="col-sm">
+
+    </div>
+    <div class="col-sm border border-secondary shadow-lg p-3 mb-5 bg-white rounded">
+      <p><strong>Registrar Organización</p>
+      <br><br>
+      <button type="button" class="btn btn-primary" id="account-create"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Alta</button>
+      <button type="button" class="btn btn-warning" id="account-list"><i class="fa fa-list" aria-hidden="true"></i> Ver Cuentas</button>
+      <br><br>
+    </div>
+    <div class="col-sm">
+
+    </div>
+
+  </div>
+  <div class="row form_alta">
+    <div class="col-sm">
+
+    </div>
+    <div class="col-sm border border-secondary shadow-lg p-3 mb-5 bg-white rounded">
+      <p><strong>Registrar Organización</p>
+        <form id="formRegister">
+          <div class="form-group">
+            <label for="formName">Nombre</label>
+            <input type="text" maxlength="50" minlength="4" class="form-control" id="formName" aria-describedby="nameHelp" placeholder="Ingresa Nombre" required>
+            <small id="nameHelp" class="form-text text-muted">Ingresa tu nombre completo</small>
+          </div>g
+          <div class="form-group">
+            <label for="formAddress">Dirección</label>
+            <input type="text" maxlength="50" minlength="10" class="form-control" id="formAddress" aria-describedby="addressHelp" placeholder="Ingresa Dirección" required>
+            <small id="addressHelp" class="form-text text-muted">Ingresa tu dirección</small>
+          </div>
+          <div class="form-group">
+            <label for="formPhone">Teléfono</label>
+            <input type="text" maxlength="10" minlength="10" class="form-control" id="formPhone" aria-describedby="phoneHelp" placeholder="Ingresa Número Telefonico" required>
+            <small id="phoneHelp" class="form-text text-muted">Ingresa tu número telefónico</small>
+          </div>
+          <button type="button" class="btn btn-success save-account"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+          <button type="button" onclick="javascript:location.reload();" class="btn btn-danger"><i class="fa fa-window-close-o" aria-hidden="true"></i> Cancelar</button>
+        </form>
+    </div>
+    <div class="col-sm">
+
+    </div>
+
+  </div>
+
+
+  <div class="modal" tabindex="-1" id="ModalSystem" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Mensajes del sistema</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modal-messages"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
